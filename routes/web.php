@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\MyEvent;
+use App\Events\ServerMessage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::view('/client', 'client');
+Route::view('/server', 'server');
+Route::post('/server/post-message', function () {
+    event(new ServerMessage(request('message')));
+
+    return redirect()->to('/server');
 });
